@@ -24,12 +24,19 @@ def main():
         clock.tick(FPS)
         
         if game.turn == WHITE:
-            value, new_board = minimax(game.get_board(), 4, WHITE, game)
+            value, new_board = minimax(game.get_board(), 2, WHITE, game)
             game.ai_move(new_board)
+            pygame.time.delay(100)
+
+        elif game.turn == RED:
+            value, new_board = minimax(game.get_board(), 2, RED, game)
+            game.ai_move(new_board)
+            pygame.time.delay(100)
 
         if game.winner() != None:
             print(game.winner())
             run = False
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -41,7 +48,8 @@ def main():
                 game.select(row, col)
 
         game.update()
-    
+
     pygame.quit()
+
 
 main()
