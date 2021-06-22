@@ -2,7 +2,7 @@
 import pygame
 from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
 from checkers.game import Game
-from minimax.algorithm import minimax
+from minimax.algorithm import minimax, get_all_moves
 
 FPS = 60
 
@@ -24,17 +24,21 @@ def main():
         clock.tick(FPS)
         
         if game.turn == WHITE:
-            value, new_board = minimax(game.get_board(), 2, WHITE, game)
+            value, new_board = minimax(game.get_board(), 3, WHITE, game)
             game.ai_move(new_board)
             pygame.time.delay(100)
 
         elif game.turn == RED:
-            value, new_board = minimax(game.get_board(), 2, RED, game)
+            value, new_board = minimax(game.get_board(), 3, RED, game)
             game.ai_move(new_board)
             pygame.time.delay(100)
 
-        if game.winner() != None:
-            print(game.winner())
+        if game.winner() or not get_all_moves(game.board, game.turn, game):
+            if game.board.winner():
+                winner = 'RED' if game.board.winner == RED else 'WHITE'
+                print(f'{winner} wins')
+            else:
+                print('DRAW')
             run = False
 
 
